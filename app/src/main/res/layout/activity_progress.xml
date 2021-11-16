@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="#F9EBE1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.ProgressActivity">
+    <ImageView
+        android:id="@+id/img_logo"
+        android:src="@drawable/logo"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"/>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/tv_welcome"
+        android:layout_below="@+id/img_logo"
+        android:layout_centerInParent="true"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:text="Welcome In"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_namabrand"
+        android:textSize="30dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/tv_welcome"
+        android:textColor="#88071E"
+        android:text="Lefinto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/tv_namabrand"
+        android:textColor="#000000"
+        android:text="Segera dapatkan apa yang anda mau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/lgn"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_below="@id/tv_tagline"
+        android:backgroundTint="#B2B2B2"
+        android:text="Login"
+        android:layout_width="150dp"
+        android:layout_height="45dp"/>
+    <Button
+        android:id="@+id/bt_sng"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="220dp"
+        android:layout_below="@id/tv_tagline"
+        android:backgroundTint="#B2B2B2"
+        android:text="Sign Up"
+        android:layout_width="150dp"
+        android:layout_height="45dp"/>
+
+</RelativeLayout>
