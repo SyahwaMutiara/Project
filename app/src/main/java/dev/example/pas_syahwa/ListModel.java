@@ -1,5 +1,6 @@
 package dev.example.pas_syahwa;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -7,6 +8,7 @@ public class ListModel extends RealmObject {
     @PrimaryKey
     private Integer id;
     private String nama;
+    private String kota;
     private String gambar;
     private String deskripsi;
     private float rating;
@@ -14,8 +16,21 @@ public class ListModel extends RealmObject {
 
     public ListModel() {}
 
-    public ListModel(String nama, String gambar, String deskripsi, boolean isFavorite, float rating) {
+    public String getKota() {
+        return kota;
+    }
+
+    public void setKota(String kota) {
+        this.kota = kota;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public ListModel(String kota , String nama, String gambar, String deskripsi, boolean isFavorite, float rating) {
         this.nama = nama;
+        this.kota = kota;
         this.gambar = gambar;
         this.deskripsi = deskripsi;
         this.isFavorite = isFavorite;

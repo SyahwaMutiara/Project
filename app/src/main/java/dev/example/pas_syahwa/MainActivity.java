@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private List<ListModel> list;
     Adapter adapter;
 
-    String gambar, deskripsi, nama;
+    String gambar, deskripsi, nama, kota;
     float rating;
     private final int REQUEST_CODE = 101;
     private int listIndex;
@@ -56,19 +56,35 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         {
                             try {
-                                JSONArray results = response.getJSONArray("restaurant");
+                                JSONArray results = response.getJSONArray("restaurants");
                                 for (int i = 0; i < results.length(); i++) {
                                     JSONObject object = results.getJSONObject(i);
+                                    Log.d("a","a"+object);
+                                    kota =  object.getString("city");
                                     gambar =  object.getString("pictureId");
                                     nama  =  object.getString("name");
                                     deskripsi =  object.getString("description");
                                     rating = (float) object.getDouble("rating");
-                                    list.add(new ListModel(nama , gambar , deskripsi, false, rating));
+                                    list.add(new ListModel(kota, nama , gambar , deskripsi, false, rating));
                                     Realm realm;
                                     ListModel favoriteClub;
                                 }
-
-                                setAdapter();
+                                adapter = new Adapter(MainActivity.this, list, new Adapter.Callback() {
+                                    @Override
+                                    public void Call(int position) {
+                                        ListModel model = list.get(position);
+                                        Intent i = new Intent(getApplicationContext(), DetailActivity.class);
+                                        i.putExtra("title", model.getNama());
+                                        i.putExtra("description", model.getDeskripsi());
+                                        i.putExtra("image", model.getGambar());
+                                        i.putExtra("rating", model.getRating());
+                                        i.putExtra("id", model.getId());
+                                        startActivity(i);
+                                    }
+                                });
+                                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                                recyclerView.setLayoutManager(layoutManager);
+                                recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -84,7 +100,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Adapter adapter = new Adapter(list);
+        Adapter.Callback callback = new Adapter.Callback() {
+            @Override
+            public void Call(int position) {
+
+            }
+        };
+
+        Adapter adapter = new Adapter(this, list, callback);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(adapter);
     }
@@ -95,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             list.get(listIndex).setId(data.getIntExtra("id", 0));
             list.get(listIndex).setFavorite(data.getBooleanExtra("isFavorite", false));
-            setAdapter();
+//            setAdapter();
             listIndex = 0;
         }
     }
