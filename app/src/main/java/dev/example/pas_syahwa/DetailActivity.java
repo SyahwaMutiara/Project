@@ -3,6 +3,7 @@ package dev.example.pas_syahwa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,7 +22,7 @@ public class DetailActivity extends AppCompatActivity {
     private Bundle bundle;
     private TextView nama, deskripsi, rating;
     private ImageView img;
-    private String name, desc, image;
+    private String name, desc, image, kota;
     private float ratings;
     private boolean isFavorite;
     Button btn_fav;
@@ -33,15 +34,15 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        btn_fav = findViewById(R.id.btn_fav);
         img = findViewById(R.id.poster_api);
         nama = findViewById(R.id.tv_judul);
         deskripsi = findViewById(R.id.tv_description);
         rating = findViewById(R.id.tv_rating);
 
-//        RealmConfiguration configuration = new RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
-//        realm = Realm.getInstance(configuration);
-//        realmHelper = new RealmHelper(realm);
+        RealmConfiguration configuration = new RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
+        realm = Realm.getInstance(configuration);
+        realmHelper = new RealmHelper(realm);
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -50,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
             ratings = bundle.getFloat("rating");
             image = bundle.getString("image");
             isFavorite = bundle.getBoolean("favorite");
-
+            kota = bundle.getString("kota");
 
             id = bundle.getInt("id");
 
@@ -58,6 +59,15 @@ public class DetailActivity extends AppCompatActivity {
             deskripsi.setText(desc);
             rating.setText(String.valueOf(ratings));
             Glide.with(this).load("https://restaurant-api.dicoding.dev/images/medium/"+image).into(img);
+            btn_fav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    realmHelper.save(new ListModel(id, kota, name, image, desc, ratings, isFavorite));
+//                    Log.d("A","A"+listModel);
+                    Toast.makeText(DetailActivity.this, "Berhasil Disimpan di Favorit :)", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
       if (getSupportActionBar() !=null){
           getSupportActionBar().setTitle("Detail Club");

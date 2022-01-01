@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                                     nama  =  object.getString("name");
                                     deskripsi =  object.getString("description");
                                     rating = (float) object.getDouble("rating");
-                                    list.add(new ListModel(kota, nama , gambar , deskripsi, false, rating));
+                                    list.add(new ListModel(i, kota, nama , gambar , deskripsi,  rating, false));
                                     Realm realm;
                                     ListModel favoriteClub;
                                 }
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void Call(int position) {
                                         ListModel model = list.get(position);
                                         Intent i = new Intent(getApplicationContext(), DetailActivity.class);
+                                        i.putExtra("kota", model.getKota());
                                         i.putExtra("title", model.getNama());
                                         i.putExtra("description", model.getDeskripsi());
                                         i.putExtra("image", model.getGambar());

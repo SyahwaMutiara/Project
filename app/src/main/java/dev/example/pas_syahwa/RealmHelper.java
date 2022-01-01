@@ -7,13 +7,13 @@ import io.realm.RealmResults;
 
 public class RealmHelper {
     Realm realm;
-    List<ListModel> storeList;
+
 
     public RealmHelper(Realm realm) {
         this.realm = realm;
     }
 
-    public void save(final ListModel model) {
+    public void save(final ListModel listModel) {
         realm.executeTransaction( new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -26,8 +26,8 @@ public class RealmHelper {
                     } else {
                         nextId = currentIdNum.intValue() + 1;
                     }
-                    model.setId(nextId);
-                    ListModel itemModel = realm.copyToRealm(model);
+                    listModel.setId(nextId);
+                    ListModel itemModel = realm.copyToRealm(listModel);
                     final RealmResults<ListModel> item = realm.where(ListModel.class).findAll();
                 } else {
                     Log.e("Log", "execute: Database not Exist");
@@ -51,22 +51,14 @@ public class RealmHelper {
 //        return cek;
 //    }
 
-    public List delete(ListModel movie){
-        final RealmResults<ListModel> model = realm.where(ListModel.class).equalTo("tanggal", movie.getId()).findAll();
+    public void delete(Integer id){
+        final RealmResults<ListModel> modelNews = realm.where(ListModel.class).equalTo("id", id).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                final RealmResults<ListModel> allItems = realm.where(ListModel.class).findAll();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        model.deleteFromRealm(0);
-                    }
-                });
+                modelNews.deleteFromRealm(0);
             }
         });
-        Log.d("Store List", ""+storeList.size());
-        return storeList;
     }
 
 }
