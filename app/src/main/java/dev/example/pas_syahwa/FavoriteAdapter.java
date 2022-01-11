@@ -76,6 +76,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         Integer posku;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnCreateContextMenuListener(this::onCreateContextMenu);
             relativeLayout = itemView.findViewById(R.id.rv_click);
             title = itemView.findViewById(R.id.tv_judul_item);
             location = itemView.findViewById(R.id.tv_tanggal_item);
@@ -88,7 +89,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 }
             });
 
-        }   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        }
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             MenuItem Delete = menu.add(Menu.NONE, 1, 1, "Hapus");
             Delete.setOnMenuItemClickListener(this::onMenuItemClick);
         }

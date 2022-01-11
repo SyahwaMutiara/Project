@@ -14,7 +14,7 @@ public class RealmHelper {
     }
 
     public void save(final ListModel listModel) {
-        realm.executeTransaction( new Realm.Transaction() {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 if (realm != null) {
@@ -34,6 +34,7 @@ public class RealmHelper {
                 }
             }
         });
+
     }
 
 

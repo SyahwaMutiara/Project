@@ -7,7 +7,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
-        RealmConfiguration configuration = new  RealmConfiguration.Builder().allowWritesOnUiThread(true).name("movies.db1").schemaVersion(0).build();
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .allowWritesOnUiThread(true)
+                .name("db")
+                .schemaVersion(0)
+                .build();
         Realm.setDefaultConfiguration(configuration);
     }
+
 }

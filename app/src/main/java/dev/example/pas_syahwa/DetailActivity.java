@@ -34,16 +34,15 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Realm.init(DetailActivity.this);
+        RealmConfiguration configuration = new RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
+        realm = Realm.getInstance(configuration);
+        Log.d("A","A" + realm);
         btn_fav = findViewById(R.id.btn_fav);
         img = findViewById(R.id.poster_api);
         nama = findViewById(R.id.tv_judul);
         deskripsi = findViewById(R.id.tv_description);
         rating = findViewById(R.id.tv_rating);
-
-        RealmConfiguration configuration = new RealmConfiguration.Builder().allowWritesOnUiThread(true).build();
-        realm = Realm.getInstance(configuration);
-        realmHelper = new RealmHelper(realm);
-
         bundle = getIntent().getExtras();
         if (bundle != null) {
             name = bundle.getString("title");
@@ -62,9 +61,9 @@ public class DetailActivity extends AppCompatActivity {
             btn_fav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    realmHelper = new RealmHelper(realm);
                     realmHelper.save(new ListModel(id, kota, name, image, desc, ratings, isFavorite));
-//                    Log.d("A","A"+listModel);
+                    Log.d("A","A" + realm);
                     Toast.makeText(DetailActivity.this, "Berhasil Disimpan di Favorit :)", Toast.LENGTH_SHORT).show();
                 }
             });
