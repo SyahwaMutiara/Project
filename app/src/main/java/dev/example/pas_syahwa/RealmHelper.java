@@ -1,24 +1,19 @@
 package dev.example.pas_syahwa;
-
 import android.util.Log;
-
+import java.util.Collections;
 import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-class RealmHelper {
-
+public class RealmHelper {
     Realm realm;
-    int id;
+
 
     public RealmHelper(Realm realm) {
         this.realm = realm;
     }
 
-    // untuk menyimpan data
-    public int save(final ListModel listModel) {
-        id = 0;
+    public void save(final ListModel listModel) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -31,33 +26,40 @@ class RealmHelper {
                     } else {
                         nextId = currentIdNum.intValue() + 1;
                     }
-                    id = nextId;
                     listModel.setId(nextId);
-                    ListModel model = realm.copyToRealm(listModel);
+                    ListModel itemModel = realm.copyToRealm(listModel);
+                    final RealmResults<ListModel> item = realm.where(ListModel.class).findAll();
                 } else {
-                    Log.e("ppppp", "execute: Database not Exist");
+                    Log.e("Log", "execute: Database not Exist");
                 }
             }
         });
-        return listModel.getId();
+
     }
 
-    // untuk memanggil semua data
-    public List<ListModel> getAllMahasiswa() {
+
+    public List<ListModel> getAllMovies() {
         RealmResults<ListModel> results = realm.where(ListModel.class).findAll();
-        System.out.println("results name: "+results.get(0).getNama());
-        System.out.println("results desc: "+results.get(0).getDeskripsi());
         return results;
     }
+//    public boolean getAllMoviesByName(String name) {
+//        boolean cek = false;
+//        Model results = realm.where(Model.class).equalTo("judul", name).findFirst();
+//        realm.beginTransaction();
+//        if (results.getJudul() == null){
+//            cek=true;
+//        }
+//        return cek;
+//    }
 
-    // untuk menghapus data
-    public void delete(Integer id) {
-        final RealmResults<ListModel> model = realm.where(ListModel.class).equalTo("id", id).findAll();
+    public void delete(Integer id){
+        final RealmResults<ListModel> modelNews = realm.where(ListModel.class).equalTo("id", id).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                model.deleteFromRealm(0);
+                modelNews.deleteFromRealm(0);
             }
         });
     }
+
 }
