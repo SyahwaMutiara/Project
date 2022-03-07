@@ -68,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.favorite_main_menu:
                         Toast.makeText(MainActivity.this, "Favorite!", Toast.LENGTH_SHORT).show();
                         return true;
-                    default:
-                        return false;
+
+
                 }
+                return false;
             }
         });
 
